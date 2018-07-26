@@ -1,5 +1,5 @@
 (function($) {
-	$.entwine('ss', function($) {
+	$.entwine('ss', function($){
 		$('.WidgetAreaEditor').entwine({
 			onmatch: function() {
 				var parentName=$(this).attr('name');
@@ -103,7 +103,9 @@
 				
 				$.ajax({
 					'url': 'WidgetController/EditableSegment/' + className, 
-					'success' : function(response) {parentRef.insertWidgetEditor(response)},
+					'success' : function(response) {
+						parentRef.insertWidgetEditor(response)
+					},
 					'data' : {
 						'locale' :  locale ,
 					},
@@ -167,9 +169,21 @@
 			onmatch: function() {
 				// Call deleteWidget when delete button is pushed
 				$(this).find('span.widgetDelete').click(function() {
-					$(this).closest('.WidgetAreaEditor').deleteWidget($(this).parent().parent());
+					if(confirm("Do you want to delete the selected widget")){
+                        $(this).closest('.WidgetAreaEditor').deleteWidget($(this).parent().parent().parent());
+					}
 				});
+
+                $(this).find('.cms-widget-control').click(function() {
+                	var widgetID = $(this).attr('widget-id');
+                	console.log($("#" + widgetID));
+                	jQuery("#" + widgetID).toggle();
+                });
 			}
 		});
+		$('.cms-widget-detail').hide();
+
+
+		console.log('.');
 	})
 })(jQuery);
